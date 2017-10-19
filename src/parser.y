@@ -15,6 +15,8 @@ void yyerror(const char* str)
 {
     std::cerr << str << std::endl;
 }
+
+extern const class Program* program;
 %}
 
 %union {
@@ -38,12 +40,8 @@ void yyerror(const char* str)
 
 %error-verbose
 
-%nonassoc '<'
-%left '+' '-'
-%left '*' '/'
-%right '!'
-%left '.' '['
-
+%token                      T_AND       "&&"
+%token                      T_OR        "||"
 %token                      T_ENTRY
 %token                      T_INTTYPE   "int"
 %token                      T_BOOLTYPE  "bool"
@@ -59,16 +57,12 @@ void yyerror(const char* str)
 %token                      T_IF        "if"
 %token                      T_ELSE      "else"
 %token                      T_WHILE     "while"
-%token                      T_OR        "or"
 %token                      T_TRUE      "true"
 %token                      T_FALSE     "false"
 %token                      T_LENGTH    "length"
 
 %token  <symbol>            T_IDENTIFIER
 %token  <symbol>            T_INTLITERAL
-
-%nonassoc                   T_AND       "&&"
-%nonassoc                   T_OR        "||"
 
 %type   <program>           PROGRAM
 %type   <main_class>        MAIN_CLASS
@@ -86,11 +80,23 @@ void yyerror(const char* str)
 %type   <expression_list>   EXPRESSION_LIST
 %type   <expression_list>   EXPRESSION_REST
 %type   <expression>        EXPRESSION
+
+%left '+' '-'
+%left '*' '/' '%'
+%right '!'
+%left '.' '['
+%nonassoc '<'
+
+%nonassoc T_AND
+%nonassoc T_OR
+%nonassoc T_UNMINUS
+
+%start PROGRAM
 %%
 
 PROGRAM: 
     MAIN_CLASS CLASS_DECL_LIST 
-    { /*program = */$$ = new Program($1, $2); }
+    { program = $$ = new Program($1, $2); }
     ;
 
 MAIN_CLASS: 
@@ -113,7 +119,7 @@ CLASS_DECL_LIST:
     ;
 
 CLASS_DECL: 
-    "class" T_IDENTIFIER '{' 
+    "class" T_IDENTIFIER '{'
         VAR_DECL_LIST
         METHOD_DECL_LIST
     '}'
@@ -127,8 +133,8 @@ CLASS_DECL:
     ;
 
 VAR_DECL_LIST:
-    VAR_DECL VAR_DECL_LIST
-    { $$ = new VarDeclList($1, $2); }
+    VAR_DECL_LIST VAR_DECL
+    { $$ = new VarDeclList($2, $1); }
     |
     /* empty */
     { $$ = nullptr; }
@@ -180,20 +186,20 @@ ARGUMENT_REST:
     ;
 
 TYPE:
-    T_INTTYPE
-    { $$ = new PrimitiveType(BuiltinType::INT); }
+    "int" '[' ']' // TODO shift/reduce conflict here
+    { $$ = new ArrayType(); }
     |
-    T_BOOLTYPE
+    "bool"
     { $$ = new PrimitiveType(BuiltinType::BOOL); }
     |
-    T_STRTYPE
+    "int"
+    { $$ = new PrimitiveType(BuiltinType::INT); }
+    |
+    "String"
     { $$ = new PrimitiveType(BuiltinType::STRING); }
     |
     T_IDENTIFIER
     { $$ = new UserDefinedType($1); }
-    |
-    T_INTTYPE '[' ']'
-    { $$ = new ArrayType(); }
     ;
 
 STATEMENT_LIST:
@@ -222,9 +228,9 @@ STATEMENT:
     |
     T_IDENTIFIER '[' EXPRESSION ']' '=' EXPRESSION ';'
     { $$ = new AssignSubscriptStatement($1, $3, $6); }
-    |
+    /*|
     EXPRESSION ';'
-    { $$ = nullptr; std::cerr << "Statement has no effect" << std::endl; }
+    { $$ = nullptr; std::cerr << "Statement has no effect" << std::endl; }*/
     ;
 
 EXPRESSION_LIST:
@@ -266,9 +272,12 @@ EXPRESSION:
     EXPRESSION "||" EXPRESSION
     { $$ = new BinaryExpression($1, BinaryOperator::OR, $3); }
     |
-    /*EXPRESSION ',' EXPRESSION   
+    /*EXPRESSION ',' EXPRESSION
     { $$ = new BinaryExpression($1, BinaryOperator::COMMA, $3); }
     |*/
+    '-' EXPRESSION %prec T_UNMINUS 
+    { $$ = nullptr; }
+    |
     EXPRESSION '[' EXPRESSION ']'
     { $$ = new SubscriptExpression($1, $3); }
     |
@@ -281,16 +290,16 @@ EXPRESSION:
     T_INTLITERAL 
     { $$ = new IntExpression($1); }
     |
-    T_TRUE 
+    "true"
     { $$ = new BoolExpression(true); }
     |
-    T_FALSE
+    "false"
     { $$ = new BoolExpression(false); }
     |
     T_IDENTIFIER
     { $$ = new IdExpression($1); }
     |
-    T_THIS 
+    "this"
     { $$ = new ThisExpression(); }
     |
     "new" TYPE '[' EXPRESSION ']'

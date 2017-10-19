@@ -304,3 +304,4 @@ GitHub.sublime-settings
 *.l.hpp
 *.y.hpp
 *.y.cpp
+*.output

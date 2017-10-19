@@ -1,5 +1,5 @@
 %{
-#include <stdio.h>
+#include <iostream>
 
 #include "parser.y.hpp"
 
@@ -43,7 +43,7 @@ BOOLLITERAL             (false|true)
 "||"                    update_location(); return T_OR;
 
 {ID}                    { 
-                            update_location(); 
+                            update_location();
                             yylval.symbol = new Symbol(yytext);
                             return T_IDENTIFIER;
                         }   
@@ -58,8 +58,7 @@ BOOLLITERAL             (false|true)
 "/*".*"*/"              update_location();
 
 [[:space:]]+            update_location();
-
-.                       printf("Lexical error at (%d, %d)", line_counter, char_counter); abort();
+.                       return yytext[0];
 %%
 
 void update_location()
