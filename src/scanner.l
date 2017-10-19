@@ -17,32 +17,42 @@ INTLITERAL              [1-9]{DIGIT}*|0
 BOOLLITERAL             (false|true)
 
 %%
-"int"                   update_location(); return TOK_INTTYPE;
-"boolean"               update_location(); return TOK_BOOLTYPE;
-"String"                update_location(); return TOK_STRTYPE;
+"int"                   update_location(); return T_INTTYPE;
+"boolean"               update_location(); return T_BOOLTYPE;
+"String"                update_location(); return T_STRTYPE;
 
-"new"                   update_location(); return TOK_NEW;
-"return"                update_location(); return TOK_RETURN;
+"new"                   update_location(); return T_NEW;
+"return"                update_location(); return T_RETURN;
 
-"System.out.println"    update_location(); return TOK_PRINT;
-"static void main"      update_location(); return TOK_ENTRY;
+"System.out.println"    update_location(); return T_PRINT;
+"static void main"      update_location(); return T_ENTRY;
 
-"public"                update_location(); return TOK_PUBLIC;
-"private"               update_location(); return TOK_PRIVATE;
-"while"                 update_location(); return TOK_WHILE;
-"if"                    update_location(); return TOK_IF;
-"else"                  update_location(); return TOK_ELSE;
-"class"                 update_location(); return TOK_CLASS;
-"this"                  update_location(); return TOK_THIS;
-"extends"               update_location(); return TOK_EXTENDS;
-"true"                  update_location(); return TOK_TRUE;
-"false"                 update_location(); return TOK_FALSE;
+"public"                update_location(); return T_PUBLIC;
+"private"               update_location(); return T_PRIVATE;
+"while"                 update_location(); return T_WHILE;
+"if"                    update_location(); return T_IF;
+"else"                  update_location(); return T_ELSE;
+"class"                 update_location(); return T_CLASS;
+"this"                  update_location(); return T_THIS;
+"extends"               update_location(); return T_EXTENDS;
+"true"                  update_location(); return T_TRUE;
+"false"                 update_location(); return T_FALSE;
+"length"                update_location(); return T_LENGTH;
 
-"&&"                    update_location(); return TOK_AND;
-"||"                    update_location(); return TOK_OR;
+"&&"                    update_location(); return T_AND;
+"||"                    update_location(); return T_OR;
 
-{ID}                    update_location(); return TOK_ID;
-{INTLITERAL}            update_location(); return TOK_INTLITERAL;
+{ID}                    { 
+                            update_location(); 
+                            yylval.symbol = new Symbol(yytext);
+                            return T_IDENTIFIER;
+                        }   
+                    
+{INTLITERAL}            {
+                            update_location();
+                            yylval.symbol = new Symbol(yytext);
+                            return T_INTLITERAL;        
+                        }
 
 "//".*$                 update_location();
 "/*".*"*/"              update_location();
@@ -55,13 +65,13 @@ BOOLLITERAL             (false|true)
 void update_location()
 {
     //printf("(%d, %d)", x, y);
-    for (int i = 0; i < yyleng; ++i) {
+    /*for (int i = 0; i < yyleng; ++i) {
         if (yytext[i] == '\n') {
             ++line_counter;
             char_counter = 1;
         } else {
             ++char_counter;
         }
-    }
+    }*/
     //printf("(%d, %d)", x, y);
 }

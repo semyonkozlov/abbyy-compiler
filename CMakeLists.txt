@@ -17,8 +17,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_ROOT}/bin)
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
-flex_target(scanner ${PROJECT_ROOT}/src/scanner.l ${PROJECT_ROOT}/src/scanner.l.c
-        COMPILE_FLAGS "--header-file=${PROJECT_ROOT}/src/scanner.l.h")
+flex_target(scanner ${PROJECT_ROOT}/src/scanner.l ${PROJECT_ROOT}/src/scanner.l.cpp
+        COMPILE_FLAGS "-+ --header-file=${PROJECT_ROOT}/src/scanner.l.hpp")
 bison_target(parser ${PROJECT_ROOT}/src/parser.y ${PROJECT_ROOT}/src/parser.y.cpp)
 add_flex_bison_dependency(scanner parser)
 
@@ -26,7 +26,9 @@ include_directories({PROJECT_ROOT}/src)
 
 set(SOURCE_FILES
         src/main.cpp
-        src/scanner.l.c
+        src/scanner.l.cpp
         src/parser.y.cpp
+        src/visitor.h
+        src/grammar.h
         )
 add_executable(minijavac ${SOURCE_FILES})

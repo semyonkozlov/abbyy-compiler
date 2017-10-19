@@ -300,7 +300,7 @@ GitHub.sublime-settings
 # End of https://www.gitignore.io/api/c,c++,flex,clion,python,sublimetext
 
 ### Flex/Bison ###
-*.l.c
-*.l.h
+*.l.cpp
+*.l.hpp
 *.y.hpp
 *.y.cpp
