@@ -38,6 +38,12 @@ void yyerror(const char* str)
 
 %error-verbose
 
+%nonassoc '<'
+%left '+' '-'
+%left '*' '/'
+%right '!'
+%left '.' '['
+
 %token                      T_ENTRY
 %token                      T_INTTYPE   "int"
 %token                      T_BOOLTYPE  "bool"
@@ -63,11 +69,6 @@ void yyerror(const char* str)
 
 %nonassoc                   T_AND       "&&"
 %nonassoc                   T_OR        "||"
-%nonassoc '<'
-%left '+' '-'
-%left '*' '/'
-%right '!'
-%left '.' '['
 
 %type   <program>           PROGRAM
 %type   <main_class>        MAIN_CLASS
@@ -78,7 +79,7 @@ void yyerror(const char* str)
 %type   <method_decl_list>  METHOD_DECL_LIST
 %type   <method_decl>       METHOD_DECL
 %type   <arg_list>          ARGUMENT_LIST
-%type   <arg_list>     ARGUMENT_REST
+%type   <arg_list>          ARGUMENT_REST
 %type   <type>              TYPE
 %type   <statement_list>    STATEMENT_LIST
 %type   <statement>         STATEMENT

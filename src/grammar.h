@@ -104,13 +104,13 @@ private:
 class VarDecl : public Visitable<VarDecl>
 {
 public:
-    VarDecl(const Type* type, const Symbol* var_name)
-        : type_(type), var_name_(var_name)
+    VarDecl(const Type* type, const Symbol* var_id)
+        : type_(type), var_id_(var_id)
     { }
 
 private:
     const Type* type_;
-    const Symbol* var_name_;
+    const Symbol* var_id_;
 };
 
 class MethodDeclList : public Visitable<MethodDeclList>
@@ -134,16 +134,16 @@ class MethodDecl : public Visitable<MethodDecl>
 {
 public:
     MethodDecl(
-        AccessMod access_mod, const Type* return_type, const Symbol* method_name, const ArgumentList* arg_list,
+        AccessMod access_mod, const Type* return_type, const Symbol* method_id, const ArgumentList* arg_list,
         const VarDeclList* var_decls, const StatementList* statements, const Expression* return_expression)
-        : access_mod_(access_mod), return_type_(return_type), method_name_(method_name), arg_list_(arg_list),
+        : access_mod_(access_mod), return_type_(return_type), method_id_(method_id), arg_list_(arg_list),
           var_decls_(var_decls), statements_(statements), return_expression_(return_expression)
     { }
 
 private:
     AccessMod access_mod_;
     const Type* return_type_;
-    const Symbol* method_name_;
+    const Symbol* method_id_;
     const ArgumentList* arg_list_;
     const VarDeclList* var_decls_;
     const StatementList* statements_;
@@ -153,13 +153,13 @@ private:
 class ArgumentList : public Visitable<ArgumentList>
 {
 public:
-    ArgumentList(const Type* arg_type, const Symbol* arg_name, const ArgumentList* other_args)
-        : arg_type_(arg_type), arg_name_(arg_name), other_args_(other_args)
+    ArgumentList(const Type* arg_type, const Symbol* arg_id, const ArgumentList* other_args)
+        : arg_type_(arg_type), arg_id_(arg_id), other_args_(other_args)
     { }
 
 private:
     const Type* arg_type_;
-    const Symbol* arg_name_;
+    const Symbol* arg_id_;
     const ArgumentList* other_args_;
 };
 
@@ -177,6 +177,79 @@ private:
 
 class Statement
 { };
+
+class ScopedStatement : public Visitable<ScopedStatement>, public Statement
+{
+public:
+    ScopedStatement(const StatementList* statements_in_scope)
+        : statements_in_scope_(statements_in_scope)
+    { }
+
+private:
+    const StatementList* statements_in_scope_;
+};
+
+class IfStatement : public Visitable<IfStatement>, public Statement
+{
+public:
+    IfStatement(const Expression* if_condition, const Statement* statement_if_true,
+        const Statement* statement_if_false)
+        : if_condition_(if_condition), statement_if_true_(statement_if_true), statement_if_false_(statement_if_false)
+    { }
+
+private:
+    const Expression* if_condition_;
+    const Statement* statement_if_true_;
+    const Statement* statement_if_false_;
+};
+
+class WhileStatement : public Visitable<WhileStatement>, public Statement
+{
+public:
+    WhileStatement(const Expression* loop_condition, const Statement* inloop_statement)
+        : loop_condition_(loop_condition), inloop_statement_(inloop_statement)
+    { }
+
+private:
+    const Expression* loop_condition_;
+    const Statement* inloop_statement_;
+};
+
+class PrintStatement : public Visitable<PrintStatement>, public Statement
+{
+public:
+    PrintStatement(const Expression* expression_to_print) : expression_to_print_(expression_to_print)
+    { }
+
+private:
+    const Expression* expression_to_print_;
+};
+
+class AssignStatement : public Visitable<AssignStatement>, public Statement
+{
+public:
+    AssignStatement(const Symbol* lhs_var_id, const Expression* rhs_expression)
+        : lhs_var_id_(lhs_var_id), rhs_expression_(rhs_expression)
+    { }
+
+private:
+    const Symbol* lhs_var_id_;
+    const Expression* rhs_expression_;
+};
+
+class AssignSubscriptStatement : public Visitable<AssignStatement>, public Statement
+{
+public:
+    AssignSubscriptStatement(const Symbol* lhs_array_id, const Expression* subscript,
+        const Expression* rhs_expression)
+        : lhs_array_id_(lhs_array_id), subscript_(subscript), rhs_expression_(rhs_expression)
+    { }
+
+private:
+    const Symbol* lhs_array_id_;
+    const Expression* subscript_;
+    const Expression* rhs_expression_;
+};
 
 class Type
 { };
@@ -198,7 +271,7 @@ private:
 class UserDefinedType : public Visitable<UserDefinedType>, public Type
 {
 public:
-    explicit UserDefinedType(const Symbol* type_id) : type_id_(type_id)
+    UserDefinedType(const Symbol* type_id) : type_id_(type_id)
     { }
 
 private:
