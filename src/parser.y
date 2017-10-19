@@ -181,13 +181,13 @@ ARGUMENT_REST:
 
 TYPE:
     T_INTTYPE
-    { $$ = new PrimitiveType(PrimitiveType::INT); }
+    { $$ = new PrimitiveType(BuiltinType::INT); }
     |
     T_BOOLTYPE
-    { $$ = new PrimitiveType(PrimitiveType::BOOL); }
+    { $$ = new PrimitiveType(BuiltinType::BOOL); }
     |
     T_STRTYPE
-    { $$ = new PrimitiveType(PrimitiveType::STRING); }
+    { $$ = new PrimitiveType(BuiltinType::STRING); }
     |
     T_IDENTIFIER
     { $$ = new UserDefinedType($1); }

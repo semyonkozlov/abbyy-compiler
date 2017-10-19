@@ -30,5 +30,10 @@ set(SOURCE_FILES
         src/parser.y.cpp
         src/visitor.h
         src/grammar.h
+        src/declaration.h
+        src/expression.h
+        src/statement.h
+        src/type.h
+        src/grammar_def.h
         )
 add_executable(minijavac ${SOURCE_FILES})
