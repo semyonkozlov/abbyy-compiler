@@ -1,6 +1,7 @@
 #ifndef MINIJAVAC_IDDECLS_H
 #define MINIJAVAC_IDDECLS_H
 
+#include "visitor.h"
 #include "grammar_def.h"
 
 class MainClass : public Visitable<MainClass>

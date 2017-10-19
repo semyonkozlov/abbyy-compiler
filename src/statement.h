@@ -1,6 +1,7 @@
 #ifndef MINIJAVAC_STATEMENT_H
 #define MINIJAVAC_STATEMENT_H
 
+#include "visitor.h"
 #include "grammar_def.h"
 
 class StatementList : public Visitable<StatementList>

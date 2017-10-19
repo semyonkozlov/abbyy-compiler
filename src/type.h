@@ -1,6 +1,7 @@
 #ifndef MINIJAVAC_TYPE_H
 #define MINIJAVAC_TYPE_H
 
+#include "visitor.h"
 #include "grammar_def.h"
 
 class Type
