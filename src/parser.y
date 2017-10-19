@@ -77,8 +77,8 @@ void yyerror(const char* str)
 %type   <var_decl>          VAR_DECL
 %type   <method_decl_list>  METHOD_DECL_LIST
 %type   <method_decl>       METHOD_DECL
-%type   <argument_list>     ARGUMENT_LIST
-%type   <argument_list>     ARGUMENT_REST
+%type   <arg_list>          ARGUMENT_LIST
+%type   <arg_list>     ARGUMENT_REST
 %type   <type>              TYPE
 %type   <statement_list>    STATEMENT_LIST
 %type   <statement>         STATEMENT
@@ -191,8 +191,8 @@ TYPE:
     T_IDENTIFIER
     { $$ = new UserDefinedType($1); }
     |
-    TYPE '[' ']'
-    { $$ = new ArrayType($1); }
+    T_INTTYPE '[' ']'
+    { $$ = new ArrayType(); }
     ;
 
 STATEMENT_LIST:
