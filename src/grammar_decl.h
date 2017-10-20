@@ -17,7 +17,6 @@ class Type;
 class UserDefinedType;
 class PrimitiveType;
 class ArrayType;
-class PrimitiveType;
 
 class Statement;
 class StatementList;

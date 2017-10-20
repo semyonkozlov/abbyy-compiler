@@ -51,6 +51,8 @@ struct Visitor
 
 struct Visitable
 {
+    virtual ~Visitable() = default;
+
     virtual void accept(Visitor* visitor) const = 0;
 };
 
