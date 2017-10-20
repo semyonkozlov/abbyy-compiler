@@ -2,42 +2,58 @@
 #define MINIJAVAC_TYPE_H
 
 #include "visitor.h"
-#include "grammar_def.h"
+#include "grammar_decl.h"
 
-class Type
+class Type : public Visitable
 { };
 
-enum class BuiltinType {
+enum class BuiltinType 
+{
     INT, BOOL, STRING
 };
 
-class PrimitiveType : public Visitable<PrimitiveType>, public Type
+class PrimitiveType : public Type
 {
 public:
     explicit PrimitiveType(BuiltinType type) : type_(type)
     { }
 
-private:
+    virtual void accept(Visitor* visitor) const override
+    {
+        visitor->visit(this);
+    }
+
+/*private:*/
     BuiltinType type_;
 };
 
-class UserDefinedType : public Visitable<UserDefinedType>, public Type
+class UserDefinedType : public Type
 {
 public:
     UserDefinedType(const Symbol* type_id) : type_id_(type_id)
     { }
 
-private:
+    virtual void accept(Visitor* visitor) const override
+    {
+        visitor->visit(this);
+    }
+
+/*private:*/
     const Symbol* type_id_;
 };
 
-class ArrayType : public Visitable<ArrayType>, public Type
+class ArrayType : public Type
 {
 public:
+    virtual void accept(Visitor* visitor) const override
+    {
+        visitor->visit(this);
+    }
+
     //explicit ArrayType(const Type* element_type) : element_type_(element_type)
     //{ }
 
-private:
+/*private:*/
     // const Type* element_type_;
 };
 

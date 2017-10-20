@@ -9,19 +9,24 @@
 #include "type.h"
 #include "expression.h"
 
-class Program : public Visitable<Program>
+class Program : public Visitable
 {
 public:
     Program(const MainClass* main_class, const ClassDeclList* other_classes) :
         main_class_(main_class), other_classes_(other_classes)
     { }
 
-private:
+    virtual void accept(Visitor* visitor) const override
+    {
+        visitor->visit(this);
+    }
+
+/*private:*/
     const MainClass* main_class_;
     const ClassDeclList* other_classes_;
 };
 
-class Symbol : public Visitable<MainClass>
+class Symbol : public Visitable
 {
 public:
     Symbol(std::string str) : str_(std::move(str))
@@ -35,7 +40,12 @@ public:
         return str_;
     }
 
-private:
+    virtual void accept(Visitor* visitor) const override
+    {
+        visitor->visit(this);
+    }
+
+/*private:*/
     std::string str_;
 };
 
