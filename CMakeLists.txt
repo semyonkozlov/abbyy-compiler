@@ -37,6 +37,5 @@ set(SOURCE_FILES
         src/type.h
         src/grammar_decl.h
         src/treeserializer.h
-        src/treeserializer.cpp
-        )
+        src/treeserializer.cpp)
 add_executable(minijavac ${SOURCE_FILES})

@@ -55,7 +55,7 @@ public:
     void visit(const NegationExpression*) override;
 
 private:
-    enum SyntaxNode
+    enum SyntaxType
     {
         PROGRAM,
         SYMBOL,
@@ -94,13 +94,13 @@ private:
 
     static const std::size_t NUM_SYNTAX_TYPES = NEGATION_EXPRESSION + 1;
 
-    std::queue<std::string> parent_name_;
-    std::stringstream dotstream_;
+    std::stringstream dot_stream_;
+    SyntaxType parent_;
     std::array<std::size_t, NUM_SYNTAX_TYPES> syntax_counter_;
     std::array<std::string, NUM_SYNTAX_TYPES> syntax_label_;
 
-    void add_edge_(SyntaxNode from, SyntaxNode to);
-    void add_vertex_(SyntaxNode node);
+    void add_edge_(SyntaxType from, SyntaxType to);
+    void add_vertex_(SyntaxType syntax_type);
 };
 
 #endif //MINIJAVAC_TREESERIALIZER_H
