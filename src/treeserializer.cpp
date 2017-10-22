@@ -121,24 +121,70 @@ void TreeSerializer::visit(const ClassDeclList* class_decl_list)
     class_decl_list->other_classes_->accept(this);
 }
 
-void TreeSerializer::visit(const ClassDecl*)
+void TreeSerializer::visit(const ClassDecl* class_decl)
 {
+	if( class_decl == nullptr ) {
+		return;
+	}
 
+	add_edge_( parent_, CLASS_DECL );
+
+	parent_ = CLASS_DECL;
+	class_decl->class_id_->accept( this );
+
+	parent_ = CLASS_DECL;
+	class_decl->methods_->accept( this );
+
+	parent_ = CLASS_DECL;
+	class_decl->variables_->accept( this );
+
+	parent_ = CLASS_DECL;
+	class_decl->base_class_id_->accept( this );
 }
 
-void TreeSerializer::visit(const VarDeclList*)
+void TreeSerializer::visit(const VarDeclList* var_decl_list)
 {
+	if( var_decl_list == nullptr ) {
+		return;
+	}
 
+	add_edge_( parent_, VAR_DECL_LIST );
+
+	parent_ = VAR_DECL_LIST;
+	var_decl_list->other_var_decls_->accept( this );
+
+	parent_ = VAR_DECL_LIST;
+	var_decl_list->var_decl_->accept( this );
 }
 
-void TreeSerializer::visit(const VarDecl*)
+void TreeSerializer::visit(const VarDecl* var_decl)
 {
+	if( var_decl == nullptr ) {
+		return;
+	}
 
+	add_edge_( parent_, VAR_DECL );
+	
+	parent_ = VAR_DECL;
+	var_decl->type_->accept( this );
+
+	parent_ = VAR_DECL;
+	var_decl->var_id_->accept( this );
 }
 
-void TreeSerializer::visit(const MethodDeclList*)
+void TreeSerializer::visit(const MethodDeclList* method_decl_list)
 {
+	if( method_decl_list == nullptr ) {
+		return;
+	}
 
+	add_edge_( parent_, METHOD_DECL_LIST );
+
+	parent_ = METHOD_DECL_LIST;
+	method_decl_list->method_decl_->accept( this );
+
+	parent_ = METHOD_DECL_LIST;
+	method_decl_list->other_methods_decls_->accept( this );
 }
 
 void TreeSerializer::visit(const MethodDecl*)
