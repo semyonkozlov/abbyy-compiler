@@ -305,3 +305,7 @@ GitHub.sublime-settings
 *.y.hpp
 *.y.cpp
 *.output
+
+### Graphviz ###
+*.dot
+*.png

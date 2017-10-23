@@ -26,7 +26,7 @@ TreeSerializer::TreeSerializer() : dot_stream_(), parent_(PROGRAM), syntax_count
     syntax_label_[SCOPED_STATEMENT] = "ScopedStatement";
     syntax_label_[EXPRESSION_LIST] = "ExpressionList";
     syntax_label_[LENGTH_EXPRESSION] = "LengthExpression";
-    syntax_label_[ID_EXPRESSION] = "IdExpression;";
+    syntax_label_[ID_EXPRESSION] = "IdExpression";
     syntax_label_[THIS_EXPRESSION] = "ThisExpression";
     syntax_label_[INT_EXPRESSION] = "IntExpression";
     syntax_label_[BOOL_EXPRESSION] = "BoolExpression";
@@ -52,11 +52,10 @@ std::string TreeSerializer::ast_tree_to_dot(const Program* program)
 
 void TreeSerializer::add_edge_(TreeSerializer::SyntaxType from, TreeSerializer::SyntaxType to)
 {
-    ++syntax_counter_[to];
-
     dot_stream_ << "\t";
     add_vertex_(from);
     dot_stream_ << "->";
+    ++syntax_counter_[to];
     add_vertex_(to);
     dot_stream_ << ";\n";
 }
@@ -90,6 +89,14 @@ void TreeSerializer::visit(const Symbol* symbol)
     }
 
     add_edge_(parent_, SYMBOL);
+    /*++syntax_counter_[SYMBOL];
+
+    dot_stream_ << "\t";
+    add_vertex_(parent_);
+    dot_stream_ << "->";
+    dot_stream_ << "{" << syntax_label_[SYMBOL] << syntax_counter_[SYMBOL];
+    dot_stream_ << "[label=\"" << syntax_label_[SYMBOL] << ":" << symbol->str_ << "\"]}";
+    dot_stream_ << ";\n";*/
 }
 
 void TreeSerializer::visit(const MainClass* main_class)
@@ -148,8 +155,10 @@ void TreeSerializer::visit(const ClassDecl* class_decl)
         class_decl->variables_->accept(this);
     }
 
-    parent_ = CLASS_DECL;
-    class_decl->base_class_id_->accept(this);
+    if (class_decl->base_class_id_) {
+        parent_ = CLASS_DECL;
+        class_decl->base_class_id_->accept(this);
+    }
 }
 
 void TreeSerializer::visit(const VarDeclList* var_decl_list)
@@ -273,9 +282,6 @@ void TreeSerializer::visit(const PrimitiveType* primitive_type)
     }
 
     add_edge_(parent_, PRIMITIVE_TYPE);
-
-    //parent_ = PRIMITIVE_TYPE;
-    //primitive_type->type_->accept( this );
 }
 
 void TreeSerializer::visit(const ArrayType* array_type)
@@ -548,9 +554,6 @@ void TreeSerializer::visit(const BinaryExpression* binary_expression)
     }
 
     add_edge_(parent_, BINARY_EXPRESSION);
-
-    //parent_ = BINARY_EXPRESSION;
-    //binary_expression->binary_operator_->accept( this );
 
     parent_ = BINARY_EXPRESSION;
     binary_expression->lhs_expression_->accept(this);
