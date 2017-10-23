@@ -47,6 +47,7 @@ struct Visitor
     virtual void visit(const NewObjectExpression*) = 0;
     virtual void visit(const BinaryExpression*) = 0;
     virtual void visit(const NegationExpression*) = 0;
+    virtual void visit(const UnaryMinusExpression*) = 0;
 };
 
 struct Visitable

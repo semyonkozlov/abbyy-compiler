@@ -199,7 +199,7 @@ public:
     const Expression* expression_to_negate_;
 };
 
-class ParenthesizedExpression: public Expression
+class ParenthesizedExpression : public Expression
 {
 public:
     ParenthesizedExpression(const Expression* expression) : expression_in_parentheses_(expression)
@@ -212,6 +212,20 @@ public:
 
 /*private:*/
     const Expression* expression_in_parentheses_;
+};
+
+class UnaryMinusExpression : public Expression
+{
+public:
+    UnaryMinusExpression(const Expression* expression) : expression_(expression)
+    { }
+
+    virtual void accept(Visitor* visitor) const override
+    {
+        visitor->visit(this);
+    }
+
+    const Expression* expression_;
 };
 
 #endif //MINIJAVAC_EXPRESSION_H

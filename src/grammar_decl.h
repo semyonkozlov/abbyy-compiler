@@ -41,5 +41,6 @@ class NewArrayExpression;
 class NewObjectExpression;
 class BinaryExpression;
 class NegationExpression;
+class UnaryMinusExpression;
 
 #endif //MINIJAVAC_GRAMMAR_DEF_H

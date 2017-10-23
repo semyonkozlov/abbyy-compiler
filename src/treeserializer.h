@@ -9,7 +9,7 @@
 #include "visitor.h"
 #include "grammar_decl.h"
 
-class TreeSerializer : public Visitor
+class TreeSerializer final : public Visitor
 {
 public:
     TreeSerializer();
@@ -53,6 +53,7 @@ public:
     void visit(const NewObjectExpression*) override;
     void visit(const BinaryExpression*) override;
     void visit(const NegationExpression*) override;
+    void visit(const UnaryMinusExpression*) override;
 
 private:
     enum SyntaxType
@@ -89,10 +90,11 @@ private:
         NEW_ARRAY_EXPRESSION,
         NEW_OBJECT_EXPRESSION,
         BINARY_EXPRESSION,
-        NEGATION_EXPRESSION
+        NEGATION_EXPRESSION,
+        UNARY_MINUS_EXPRESSION
     };
 
-    static const std::size_t NUM_SYNTAX_TYPES = NEGATION_EXPRESSION + 1;
+    static const std::size_t NUM_SYNTAX_TYPES = UNARY_MINUS_EXPRESSION + 1;
 
     std::stringstream dot_stream_;
     SyntaxType parent_;

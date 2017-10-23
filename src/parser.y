@@ -275,8 +275,8 @@ EXPRESSION:
     /*EXPRESSION ',' EXPRESSION
     { $$ = new BinaryExpression($1, BinaryOperator::COMMA, $3); }
     |*/
-    '-' EXPRESSION %prec T_UNMINUS // TODO create class
-    { $$ = nullptr; }
+    '-' EXPRESSION %prec T_UNMINUS
+    { $$ = new UnaryMinusExpression($2); }
     |
     EXPRESSION '[' EXPRESSION ']'
     { $$ = new SubscriptExpression($1, $3); }

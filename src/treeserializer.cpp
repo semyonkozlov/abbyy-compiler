@@ -37,6 +37,7 @@ TreeSerializer::TreeSerializer() : dot_stream_(), parent_(PROGRAM), syntax_count
     syntax_label_[NEW_OBJECT_EXPRESSION] = "NewObjectExpression";
     syntax_label_[BINARY_EXPRESSION] = "BinaryExpression";
     syntax_label_[NEGATION_EXPRESSION] = "NegationExpression";
+    syntax_label_[UNARY_MINUS_EXPRESSION] = "UnaryMinusExpression";
 }
 
 std::string TreeSerializer::ast_tree_to_dot(const Program* program)
@@ -568,4 +569,16 @@ void TreeSerializer::visit(const NegationExpression* negation_expression)
 
     parent_ = NEGATION_EXPRESSION;
     negation_expression->expression_to_negate_->accept(this);
+}
+
+void TreeSerializer::visit(const UnaryMinusExpression* unary_minus_expression)
+{
+    if (unary_minus_expression == nullptr) {
+        return;
+    }
+
+    add_edge_(parent_, UNARY_MINUS_EXPRESSION);
+
+    parent_ = UNARY_MINUS_EXPRESSION;
+    unary_minus_expression->expression_->accept(this);
 }
