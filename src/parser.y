@@ -150,7 +150,7 @@ METHOD_DECL_LIST:
     { $$ = new MethodDeclList($1, $2); }
     |
     /* empty */
-    { $$ = nullptr; }  
+    { $$ = nullptr; }
     ;
 
 METHOD_DECL:

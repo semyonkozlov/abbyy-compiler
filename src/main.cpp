@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 #include "parser.y.hpp"
 #include "treeserializer.h"
@@ -7,8 +8,13 @@ const Program* program = nullptr;
 
 int main(int argc, char** argv)
 {
-    //std::cout << std::is_abstract_v<TreeSerializer> << std::endl;
     yyparse();
-    std::cout << program << std::endl;
+
+    TreeSerializer tree_serializer;
+    std::cout << tree_serializer.ast_tree_to_dot(program) << std::endl;
+
+    //std::cout << program << std::endl;
+    //std::cout << program->other_classes_ << std::endl;
+    //std::cout << program->main_class_ << std::endl;
     return EXIT_SUCCESS;
 }
