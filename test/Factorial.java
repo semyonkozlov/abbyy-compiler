@@ -8,6 +8,7 @@ class Fac {
 
     public int ComputeFac(int num){
     int x ;
+    int [] a;
     int num_aux ;
     if (num < 1)
         num_aux = 1 ;

@@ -169,13 +169,13 @@ void TreeSerializer::visit(const VarDeclList* var_decl_list)
 
     add_edge_(parent_, VAR_DECL_LIST);
 
+    parent_ = VAR_DECL_LIST;
+    var_decl_list->var_decl_->accept(this);
+
     if (var_decl_list->other_var_decls_) {
         parent_ = VAR_DECL_LIST;
         var_decl_list->other_var_decls_->accept(this);
     }
-
-    parent_ = VAR_DECL_LIST;
-    var_decl_list->var_decl_->accept(this);
 }
 
 void TreeSerializer::visit(const VarDecl* var_decl)
@@ -301,13 +301,13 @@ void TreeSerializer::visit(const StatementList* statement_list)
 
     add_edge_(parent_, STATEMENT_LIST);
 
+    parent_ = STATEMENT_LIST;
+    statement_list->statement_->accept(this);
+
     if (statement_list->other_statements_) {
         parent_ = STATEMENT_LIST;
         statement_list->other_statements_->accept(this);
     }
-
-    parent_ = STATEMENT_LIST;
-    statement_list->statement_->accept(this);
 }
 
 void TreeSerializer::visit(const AssignSubscriptStatement* assign_subscript_statement)
