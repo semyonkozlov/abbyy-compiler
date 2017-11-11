@@ -89,14 +89,6 @@ void TreeSerializer::visit(const Symbol* symbol)
     }
 
     add_edge_(parent_, SYMBOL);
-    /*++syntax_counter_[SYMBOL];
-
-    dot_stream_ << "\t";
-    add_vertex_(parent_);
-    dot_stream_ << "->";
-    dot_stream_ << "{" << syntax_label_[SYMBOL] << syntax_counter_[SYMBOL];
-    dot_stream_ << "[label=\"" << syntax_label_[SYMBOL] << ":" << symbol->str_ << "\"]}";
-    dot_stream_ << ";\n";*/
 }
 
 void TreeSerializer::visit(const MainClass* main_class)

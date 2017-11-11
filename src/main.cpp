@@ -13,5 +13,7 @@ int main(int argc, char** argv)
     TreeSerializer tree_serializer;
     std::cout << tree_serializer.ast_tree_to_dot(program) << std::endl;
 
+    // TODO add deleter visitor
+
     return EXIT_SUCCESS;
 }

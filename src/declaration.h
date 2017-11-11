@@ -4,6 +4,24 @@
 #include "visitor.h"
 #include "grammar_decl.h"
 
+
+class Program : public Visitable
+{
+public:
+    Program(const MainClass* main_class, const ClassDeclList* other_classes) :
+        main_class_(main_class), other_classes_(other_classes)
+    { }
+
+    virtual void accept(Visitor* visitor) const override
+    {
+        visitor->visit(this);
+    }
+
+/*private:*/
+    const MainClass* main_class_;
+    const ClassDeclList* other_classes_;
+};
+
 class MainClass : public Visitable
 {
 public:

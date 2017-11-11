@@ -19,12 +19,10 @@ struct Visitor
     virtual void visit(const MethodDecl*) = 0;
     virtual void visit(const ArgumentList*) = 0;
 
-    // virtual void visit(const Type*) = 0;
     virtual void visit(const UserDefinedType*) = 0;
     virtual void visit(const PrimitiveType*) = 0;
     virtual void visit(const ArrayType*) = 0;
 
-    // virtual void visit(const Statement*) = 0;
     virtual void visit(const StatementList*) = 0;
     virtual void visit(const AssignSubscriptStatement*) = 0;
     virtual void visit(const PrintStatement*) = 0;
@@ -33,7 +31,6 @@ struct Visitor
     virtual void visit(const AssignStatement*) = 0;
     virtual void visit(const ScopedStatement*) = 0;
 
-    // virtual void visit(const Expression*) = 0;
     virtual void visit(const ExpressionList*) = 0;
     virtual void visit(const LengthExpression*) = 0;
     virtual void visit(const IdExpression*) = 0;

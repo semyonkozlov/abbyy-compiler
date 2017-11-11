@@ -92,8 +92,8 @@ extern const class Program* program;
 %nonassoc T_UNMINUS
 
 %start PROGRAM
-%%
 
+%%
 PROGRAM: 
     MAIN_CLASS CLASS_DECL_LIST 
     { program = $$ = new Program($1, $2); }

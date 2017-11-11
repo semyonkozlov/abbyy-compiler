@@ -63,7 +63,6 @@ BOOLLITERAL             (false|true)
 
 void update_location()
 {
-    //printf("(%d, %d)", x, y);
     /*for (int i = 0; i < yyleng; ++i) {
         if (yytext[i] == '\n') {
             ++line_counter;
@@ -72,5 +71,4 @@ void update_location()
             ++char_counter;
         }
     }*/
-    //printf("(%d, %d)", x, y);
 }
