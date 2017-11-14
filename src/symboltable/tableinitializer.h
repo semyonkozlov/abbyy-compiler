@@ -4,12 +4,22 @@
 #include "../ast/visitor.h"
 #include "table.h"
 
+enum class Scope
+{
+    GLOBAL,
+    CLASS,
+    METHOD,
+    LOCAL, // TODO
+
+    ENUM_SIZE_
+};
+
 class TableInitializer final : public Visitor
 {
 public:
     TableInitializer();
 
-    void init_symbol_table(Table* symbol_table, const Program* ast_root);
+    bool init_symbol_table(Table* symbol_table, const Program* ast_root);
 
     void visit(const Program*) override;
     void visit(const Symbol*) override;
@@ -55,6 +65,7 @@ private:
 
     ClassInfo current_class_info_;
     MethodInfo current_method_info_;
+    Scope current_scope_;
 };
 
 #endif //MINIJAVAC_TABLEINITIALIZER_H
