@@ -45,7 +45,7 @@ set(SOURCE_FILES
         src/symboltable/methodinfo.cpp
         src/symboltable/methodinfo.h
         src/symboltable/variableinfo.cpp
-        src/symboltable/variableinfo.h src/symboltable/tableinitializer.cpp src/symboltable/tableinitializer.h)
+        src/symboltable/variableinfo.h src/symboltable/tableinitializer.cpp src/symboltable/tableinitializer.h src/utils/compilationerror.cpp src/utils/compilationerror.h src/utils/declarationerror.cpp src/utils/declarationerror.h)
 
 add_executable(minijavac ${SOURCE_FILES})
 target_include_directories(minijavac PUBLIC {PROJECT_ROOT}/src)

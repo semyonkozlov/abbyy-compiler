@@ -5,12 +5,13 @@
 
 #include "symbol.h"
 #include "variableinfo.h"
+#include "../ast/declaration.h"
 
 class MethodInfo
 {
 public:
     MethodInfo();
-    MethodInfo(const Symbol* return_type_id, const Symbol* method_id);
+    MethodInfo(AccessMod access_mod, const Symbol* return_type_id, const Symbol* method_id);
 
     const Symbol* get_method_id() const noexcept
     {
@@ -24,6 +25,7 @@ private:
     std::map<const Symbol*, VariableInfo> args_;
     std::map<const Symbol*, VariableInfo> locals_;
 
+    AccessMod access_mod_;
     const Symbol* return_type_id_;
     const Symbol* method_id_;
 };

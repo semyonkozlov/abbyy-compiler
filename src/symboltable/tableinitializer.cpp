@@ -1,4 +1,5 @@
 #include <cassert>
+#include <iostream>
 
 #include "tableinitializer.h"
 #include "../ast/grammar.h"
@@ -9,9 +10,10 @@ TableInitializer::TableInitializer()
 
 bool TableInitializer::init_symbol_table(Table* symbol_table, const Program* ast_root)
 {
-    if (symbol_table_ == nullptr) {
+    if (symbol_table == nullptr) {
         return false;
     }
+
     symbol_table_ = symbol_table;
 
     if (ast_root) {
@@ -37,7 +39,7 @@ void TableInitializer::visit(const MainClassDecl* main_class_decl)
 {
     current_class_info_ = ClassInfo(main_class_decl->class_id_);
 
-    current_method_info_ = MethodInfo(Symbol::make_symbol("void"), Symbol::make_symbol("main"));
+    current_method_info_ = MethodInfo(AccessMod::PUBLIC, Symbol::make_symbol("void"), Symbol::make_symbol("main"));
     current_method_info_.add_arg_info(VariableInfo(Symbol::make_symbol("String[]"), main_class_decl->main_argv_id_));
 
     current_class_info_.add_method_info(current_method_info_);
@@ -111,7 +113,8 @@ void TableInitializer::visit(const MethodDeclList* method_decl_list)
 
 void TableInitializer::visit(const MethodDecl* method_decl)
 {
-    current_method_info_ = MethodInfo(method_decl->return_type_->type_id_, method_decl->method_id_);
+    current_method_info_ =
+        MethodInfo(method_decl->access_mod_, method_decl->return_type_->type_id_, method_decl->method_id_);
 
     if (method_decl->arg_list_) {
         method_decl->arg_list_->accept(this);

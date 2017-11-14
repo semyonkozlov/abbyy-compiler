@@ -88,7 +88,14 @@ void TreeSerializer::visit(const Symbol* symbol)
         return;
     }
 
-    add_edge_(parent_, SYMBOL);
+    ++syntax_counter_[SYMBOL];
+
+    dot_stream_ << "\t";
+    add_vertex_(parent_);
+    dot_stream_ << "->";
+    dot_stream_ << "{" << syntax_label_[SYMBOL] << syntax_counter_[SYMBOL];
+    dot_stream_ << "[label=\"" << syntax_label_[SYMBOL] << " : " << symbol->to_string() << "\"]}";
+    dot_stream_ << ";\n";
 }
 
 void TreeSerializer::visit(const MainClassDecl* main_class)
@@ -274,6 +281,9 @@ void TreeSerializer::visit(const PrimitiveType* primitive_type)
     }
 
     add_edge_(parent_, PRIMITIVE_TYPE);
+
+    parent_ = PRIMITIVE_TYPE;
+    primitive_type->type_id_->accept(this);
 }
 
 void TreeSerializer::visit(const ArrayType* array_type)
@@ -283,6 +293,9 @@ void TreeSerializer::visit(const ArrayType* array_type)
     }
 
     add_edge_(parent_, ARRAY_TYPE);
+
+    parent_ = ARRAY_TYPE;
+    array_type->type_id_->accept(this);
 }
 
 void TreeSerializer::visit(const StatementList* statement_list)

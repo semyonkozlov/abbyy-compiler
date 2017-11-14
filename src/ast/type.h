@@ -3,16 +3,21 @@
 
 #include "visitor.h"
 #include "grammardecl.h"
+#include "../symboltable/tableinitializer.h"
+#include "treeserializer.h"
 
 class Type : public Visitable
 {
+    friend TableInitializer; // TODO make friends in all classes
+    friend TreeSerializer;
+
 public:
     Type() = default;
 
     explicit Type(const Symbol* type_id) : type_id_(type_id)
     { }
 
-/*private:*/
+protected:
     const Symbol* type_id_;
 };
 
@@ -23,6 +28,9 @@ enum class BuiltinType
 
 class PrimitiveType : public Type
 {
+    friend TableInitializer;
+    friend TreeSerializer;
+
 public:
     explicit PrimitiveType(BuiltinType type) : Type(), type_(type)
     {
@@ -46,12 +54,15 @@ public:
         visitor->visit(this);
     }
 
-/*private:*/
+private:
     BuiltinType type_;
 };
 
 class UserDefinedType : public Type
 {
+    friend TableInitializer;
+    friend TreeSerializer;
+
 public:
     explicit UserDefinedType(const Symbol* type_id) : Type(type_id)
     { }
@@ -64,6 +75,9 @@ public:
 
 class ArrayType : public Type
 {
+    friend TableInitializer;
+    friend TreeSerializer;
+
 public:
     ArrayType() : Type(Symbol::make_symbol("int[]"))
     { }

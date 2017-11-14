@@ -12,7 +12,7 @@ public:
     void add_class_info(const ClassInfo& class_info);
 
 private:
-    std::unordered_map<const Symbol*, ClassInfo> classes_;
+    std::map<const Symbol*, ClassInfo> classes_;
 };
 
 #endif //MINIJAVAC_TABLE_H
