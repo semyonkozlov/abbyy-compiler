@@ -9,7 +9,7 @@ class DeclarationError : public CompilationError
 public:
     DeclarationError();
 
-    const char* what() const override;
+    const char* what() const noexcept override;
 };
 
 #endif //MINIJAVAC_DECLARATIONERROR_H

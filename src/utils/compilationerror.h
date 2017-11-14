@@ -8,7 +8,7 @@ class CompilationError : public std::exception
 public:
     CompilationError();
 
-    const char* what() const override;
+    const char* what() const noexcept override;
 };
 
 #endif //MINIJAVAC_COMPILATIONERROR_H
