@@ -44,13 +44,13 @@ BOOLLITERAL             (false|true)
 
 {ID}                    { 
                             update_location();
-                            yylval.symbol = new Symbol(yytext);
+                            yylval.symbol = Symbol::make_symbol(yytext);
                             return T_IDENTIFIER;
                         }   
                     
 {INTLITERAL}            {
                             update_location();
-                            yylval.symbol = new Symbol(yytext);
+                            yylval.symbol = Symbol::make_symbol(yytext);
                             return T_INTLITERAL;        
                         }
 

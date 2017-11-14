@@ -2,13 +2,12 @@
 #define MINIJAVAC_IDDECLS_H
 
 #include "visitor.h"
-#include "grammar_decl.h"
-
+#include "grammardecl.h"
 
 class Program : public Visitable
 {
 public:
-    Program(const MainClass* main_class, const ClassDeclList* other_classes) :
+    Program(const MainClassDecl* main_class, const ClassDeclList* other_classes) :
         main_class_(main_class), other_classes_(other_classes)
     { }
 
@@ -18,14 +17,14 @@ public:
     }
 
 /*private:*/
-    const MainClass* main_class_;
+    const MainClassDecl* main_class_;
     const ClassDeclList* other_classes_;
 };
 
-class MainClass : public Visitable
+class MainClassDecl : public Visitable
 {
 public:
-    MainClass(const Symbol* class_id, const Symbol* main_argv_id, const Statement* main_body)
+    MainClassDecl(const Symbol* class_id, const Symbol* main_argv_id, const Statement* main_body)
         : class_id_(class_id), main_argv_id_(main_argv_id), main_body_(main_body)
     { }
 

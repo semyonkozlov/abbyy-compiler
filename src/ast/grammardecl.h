@@ -1,10 +1,10 @@
-#ifndef MINIJAVAC_GRAMMAR_DECL_H
-#define MINIJAVAC_GRAMMAR_DECL_H
+#ifndef MINIJAVAC_GRAMMARDECL_H
+#define MINIJAVAC_GRAMMARDECL_H
 
 class Program;
 class Symbol;
 
-class MainClass;
+class MainClassDecl;
 class ClassDeclList;
 class ClassDecl;
 class VarDeclList;
@@ -43,4 +43,4 @@ class BinaryExpression;
 class NegationExpression;
 class UnaryMinusExpression;
 
-#endif //MINIJAVAC_GRAMMAR_DECL_H
+#endif //MINIJAVAC_GRAMMARDECL_H

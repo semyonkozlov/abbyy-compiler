@@ -2,7 +2,7 @@
 #define MINIJAVAC_STATEMENT_H
 
 #include "visitor.h"
-#include "grammar_decl.h"
+#include "grammardecl.h"
 
 class StatementList : public Visitable
 {

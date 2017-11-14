@@ -7,7 +7,7 @@
 #include <queue>
 
 #include "visitor.h"
-#include "grammar_decl.h"
+#include "grammardecl.h"
 
 class TreeSerializer final : public Visitor
 {
@@ -19,7 +19,7 @@ public:
     void visit(const Program*) override;
     void visit(const Symbol*) override;
 
-    void visit(const MainClass*) override;
+    void visit(const MainClassDecl*) override;
     void visit(const ClassDeclList*) override;
     void visit(const ClassDecl*) override;
     void visit(const VarDeclList*) override;

@@ -2,7 +2,7 @@
 #define MINIJAVAC_TYPE_H
 
 #include "visitor.h"
-#include "grammar_decl.h"
+#include "grammardecl.h"
 
 class Type : public Visitable
 { };

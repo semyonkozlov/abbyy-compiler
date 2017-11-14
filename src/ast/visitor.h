@@ -1,7 +1,7 @@
 #ifndef MINIJAVAC_VISITOR_H
 #define MINIJAVAC_VISITOR_H
 
-#include "grammar_decl.h"
+#include "grammardecl.h"
 
 struct Visitor
 {
@@ -10,7 +10,7 @@ struct Visitor
     virtual void visit(const Program*) = 0;
     virtual void visit(const Symbol*) = 0;
 
-    virtual void visit(const MainClass*) = 0;
+    virtual void visit(const MainClassDecl*) = 0;
     virtual void visit(const ClassDeclList*) = 0;
     virtual void visit(const ClassDecl*) = 0;
     virtual void visit(const VarDeclList*) = 0;

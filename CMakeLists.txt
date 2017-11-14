@@ -17,29 +17,35 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_ROOT}/bin)
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
-flex_target(scanner ${PROJECT_ROOT}/src/scanner.l ${PROJECT_ROOT}/src/scanner.l.cpp
-        COMPILE_FLAGS "-+ --header-file=${PROJECT_ROOT}/src/scanner.l.hpp")
-bison_target(parser ${PROJECT_ROOT}/src/parser.y ${PROJECT_ROOT}/src/parser.y.cpp
+flex_target(scanner ${PROJECT_ROOT}/src/ast/scanner.l ${PROJECT_ROOT}/src/ast/scanner.l.cpp
+        COMPILE_FLAGS "-+ --header-file=${PROJECT_ROOT}/src/ast/scanner.l.hpp")
+bison_target(parser ${PROJECT_ROOT}/src/ast/parser.y ${PROJECT_ROOT}/src/ast/parser.y.cpp
         COMPILE_FLAGS "-v")
 add_flex_bison_dependency(scanner parser)
 
-include_directories({PROJECT_ROOT}/src)
-
 set(SOURCE_FILES
         src/main.cpp
-        src/scanner.l.cpp
-        src/parser.y.cpp
-        src/visitor.h
-        src/grammar.h
-        src/declaration.h
-        src/expression.h
-        src/statement.h
-        src/type.h
-        src/grammar_decl.h
-        src/treeserializer.h
-        src/treeserializer.cpp
-        src/symbol.h
-        src/symbol.cpp
-        src/table.h
-        src/table.cpp)
+        src/ast/visitor.h
+        src/ast/grammar.h
+        src/ast/declaration.h
+        src/ast/expression.h
+        src/ast/statement.h
+        src/ast/type.h
+        src/ast/grammardecl.h
+        src/ast/treeserializer.h
+        src/ast/treeserializer.cpp
+        src/ast/scanner.l.cpp
+        src/ast/parser.y.cpp
+        src/symboltable/symbol.h
+        src/symboltable/symbol.cpp
+        src/symboltable/table.h
+        src/symboltable/table.cpp
+        src/symboltable/classinfo.h
+        src/symboltable/classinfo.cpp
+        src/symboltable/methodinfo.cpp
+        src/symboltable/methodinfo.h
+        src/symboltable/variableinfo.cpp
+        src/symboltable/variableinfo.h src/symboltable/tableinitializer.cpp src/symboltable/tableinitializer.h)
+
 add_executable(minijavac ${SOURCE_FILES})
+target_include_directories(minijavac PUBLIC {PROJECT_ROOT}/src)

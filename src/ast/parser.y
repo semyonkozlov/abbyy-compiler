@@ -23,7 +23,7 @@ extern const class Program* program;
     const Symbol* symbol; // TODO
 
     const Program* program;
-    const MainClass* main_class;
+    const MainClassDecl* main_class;
     const ClassDeclList* class_decl_list;
     const ClassDecl* class_decl;
     const VarDeclList* var_decl_list;
@@ -104,7 +104,7 @@ MAIN_CLASS:
         "public" T_ENTRY '(' "String" '[' ']' T_IDENTIFIER ')' 
         '{' STATEMENT '}' 
     '}'
-    { $$ = new MainClass($2, $10, $13); }
+    { $$ = new MainClassDecl($2, $10, $13); }
     ;
 
 CLASS_DECL_LIST: 

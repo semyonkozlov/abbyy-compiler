@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "symbol.h"
+#include "../symboltable/symbol.h"
 #include "declaration.h"
 #include "statement.h"
 #include "type.h"

@@ -6,7 +6,7 @@ TreeSerializer::TreeSerializer() : dot_stream_(), parent_(PROGRAM), syntax_count
 {
     syntax_label_[PROGRAM] = "Program";
     syntax_label_[SYMBOL] = "Symbol";
-    syntax_label_[MAIN_CLASS] = "MainClass";
+    syntax_label_[MAIN_CLASS] = "MainClassDecl";
     syntax_label_[CLASS_DECL_LIST] = "ClassDeclList";
     syntax_label_[CLASS_DECL] = "ClassDecl";
     syntax_label_[VAR_DECL_LIST] = "VarDeclList";
@@ -91,7 +91,7 @@ void TreeSerializer::visit(const Symbol* symbol)
     add_edge_(parent_, SYMBOL);
 }
 
-void TreeSerializer::visit(const MainClass* main_class)
+void TreeSerializer::visit(const MainClassDecl* main_class)
 {
     if (main_class == nullptr) {
         return;

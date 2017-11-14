@@ -2,7 +2,7 @@
 #define MINIJAVAC_EXPRESSION_H
 
 #include "visitor.h"
-#include "grammar_decl.h"
+#include "grammardecl.h"
 
 class ExpressionList : public Visitable
 {
