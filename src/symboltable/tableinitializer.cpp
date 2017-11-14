@@ -1,4 +1,5 @@
 #include <cassert>
+
 #include "tableinitializer.h"
 #include "../ast/grammar.h"
 
@@ -80,16 +81,16 @@ void TableInitializer::visit(const VarDeclList* var_decl_list)
 
 void TableInitializer::visit(const VarDecl* var_decl)
 {
-    VariableInfo new_var_info(var_decl->type_->type_id_, var_decl->var_id_);
+    VariableInfo var_info(var_decl->type_->type_id_, var_decl->var_id_);
 
     switch (current_scope_) {
         case Scope::CLASS:
-            current_class_info_.add_field_info(new_var_info);
+            current_class_info_.add_field_info(var_info);
             break;
 
-        case Scope::LOCAL: // TODO
+        case Scope::LOCAL: // TODO do we have scope blocks?
         case Scope::METHOD:
-            current_method_info_.add_local_var_info(new_var_info);
+            current_method_info_.add_local_var_info(var_info);
             break;
 
         default:
@@ -119,5 +120,14 @@ void TableInitializer::visit(const MethodDecl* method_decl)
     if (method_decl->var_decls_) {
         current_scope_ = Scope::METHOD;
         method_decl->var_decls_->accept(this);
+    }
+}
+
+void TableInitializer::visit(const ArgumentList* arg_list)
+{
+    current_method_info_.add_arg_info(VariableInfo(arg_list->arg_type_->type_id_, arg_list->arg_id_));
+
+    if (arg_list->other_args_) {
+        arg_list->other_args_->accept(this);
     }
 }
