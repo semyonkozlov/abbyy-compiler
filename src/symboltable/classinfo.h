@@ -15,7 +15,7 @@ public:
         return class_id_;
     }
 
-    void add_method_info(const MethodInfo& method_info);
+    void add_method_info(const MethodInfo& method_info); // TODO throw error if double decl
     void add_field_info(const VariableInfo& variable_info);
 
 private:
