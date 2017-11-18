@@ -18,6 +18,26 @@ public:
         return method_id_;
     }
 
+    const Symbol* get_return_type_id() const noexcept
+    {
+        return return_type_id_;
+    }
+
+    AccessMod get_access_mod() const noexcept
+    {
+        return access_mod_;
+    }
+
+    const auto& get_args() const noexcept
+    {
+        return args_;
+    }
+
+    const auto& get_locals() const noexcept
+    {
+        return locals_;
+    }
+
     void add_local_var_info(const VariableInfo& variable_info);
     void add_arg_info(const VariableInfo& variable_info);
 

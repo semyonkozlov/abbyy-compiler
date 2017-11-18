@@ -1,6 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <cassert>
+#include "gtest/gtest.h"
 
 #include "ast/parser.y.hpp"
 
@@ -8,7 +6,9 @@ const Program* program = nullptr;
 
 int main(int argc, char** argv)
 {
-    yyparse();
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+    /*yyparse();
 
     //TreeSerializer tree_serializer;
     //std::cout << tree_serializer.ast_tree_to_dot(program) << std::endl;
@@ -19,5 +19,5 @@ int main(int argc, char** argv)
     assert(is_ok);
     // TODO add deleter visitor
 
-    return EXIT_SUCCESS;
+    return EXIT_SUCCESS;*/
 }

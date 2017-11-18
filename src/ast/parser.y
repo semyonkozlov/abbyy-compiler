@@ -7,7 +7,7 @@
 
 int yylex(void)
 {
-    static yyFlexLexer scanner;
+    extern yyFlexLexer scanner;
     return scanner.yylex();
 }
 
@@ -20,7 +20,7 @@ extern const class Program* program;
 %}
 
 %union {
-    const Symbol* symbol; // TODO
+    const Symbol* symbol;
 
     const Program* program;
     const MainClassDecl* main_class;

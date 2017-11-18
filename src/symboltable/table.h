@@ -11,6 +11,11 @@ public:
 
     void add_class_info(const ClassInfo& class_info);
 
+    const auto& get_classes() const noexcept
+    {
+        return classes_;
+    }
+
 private:
     std::map<const Symbol*, ClassInfo> classes_;
 };

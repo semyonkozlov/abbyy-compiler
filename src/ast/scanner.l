@@ -61,6 +61,8 @@ BOOLLITERAL             (false|true)
 .                       return yytext[0];
 %%
 
+yyFlexLexer scanner;
+
 void update_location()
 {
     /*for (int i = 0; i < yyleng; ++i) {

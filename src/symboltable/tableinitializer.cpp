@@ -27,7 +27,6 @@ void TableInitializer::visit(const Program* program)
 {
     if (program->main_class_) {
         program->main_class_->accept(this);
-        symbol_table_->add_class_info(current_class_info_);
     }
 
     if (program->other_classes_) {
@@ -43,6 +42,8 @@ void TableInitializer::visit(const MainClassDecl* main_class_decl)
     current_method_info_.add_arg_info(VariableInfo(Symbol::make_symbol("String[]"), main_class_decl->main_argv_id_));
 
     current_class_info_.add_method_info(current_method_info_);
+
+    symbol_table_->add_class_info(current_class_info_);
 }
 
 void TableInitializer::visit(const ClassDeclList* class_decl_list)
@@ -68,6 +69,8 @@ void TableInitializer::visit(const ClassDecl* class_decl)
     if (class_decl->methods_) {
         class_decl->methods_->accept(this);
     }
+
+    symbol_table_->add_class_info(current_class_info_);
 }
 
 void TableInitializer::visit(const VarDeclList* var_decl_list)
@@ -124,6 +127,8 @@ void TableInitializer::visit(const MethodDecl* method_decl)
         current_scope_ = Scope::METHOD;
         method_decl->var_decls_->accept(this);
     }
+
+    current_class_info_.add_method_info(current_method_info_);
 }
 
 void TableInitializer::visit(const ArgumentList* arg_list)

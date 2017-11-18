@@ -53,7 +53,8 @@ set(SOURCE_FILES
         src/utils/compilationerror.cpp
         src/utils/compilationerror.h
         src/utils/declarationerror.cpp
-        src/utils/declarationerror.h test/symboltable_test.cpp)
+        src/utils/declarationerror.h
+        test/symboltable_test.cpp)
 
 add_executable(minijavac ${SOURCE_FILES})
 target_include_directories(minijavac PUBLIC {PROJECT_ROOT}/src)

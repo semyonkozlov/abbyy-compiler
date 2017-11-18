@@ -15,6 +15,16 @@ public:
         return class_id_;
     }
 
+    const auto& get_fields() const noexcept
+    {
+        return fields_;
+    }
+
+    const auto& get_methods() const noexcept
+    {
+        return methods_;
+    }
+
     void add_method_info(const MethodInfo& method_info); // TODO throw error if double decl
     void add_field_info(const VariableInfo& variable_info);
 

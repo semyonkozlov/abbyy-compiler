@@ -14,6 +14,11 @@ public:
         return var_id_;
     }
 
+    const Symbol* get_type_id() const noexcept
+    {
+        return type_id_;
+    }
+
 private:
     const Symbol* type_id_;
     const Symbol* var_id_;
