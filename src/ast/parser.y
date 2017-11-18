@@ -1,9 +1,11 @@
 %code requires {
-#include "grammar.h"
+#include "grammardecl.h"
 }
 
 %{
 #include <FlexLexer.h>
+
+#include "grammar.h"
 
 int yylex(void)
 {
@@ -227,9 +229,6 @@ STATEMENT:
     |
     T_IDENTIFIER '[' EXPRESSION ']' '=' EXPRESSION ';'
     { $$ = new AssignSubscriptStatement($1, $3, $6); }
-    /*|
-    EXPRESSION ';'
-    { $$ = nullptr; std::cerr << "Statement has no effect" << std::endl; }*/
     |
     error ';'
     { yyerror("Empty statement."); }

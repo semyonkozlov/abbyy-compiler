@@ -52,15 +52,16 @@ set(SOURCE_FILES
         src/symboltable/tableinitializer.h
         src/utils/compilationerror.cpp
         src/utils/compilationerror.h
-        src/utils/declarationerror.cpp
-        src/utils/declarationerror.h
-        test/symboltable_test.cpp)
+        test/symboltable_test.cpp
+        src/ast/treedeallocator.cpp
+        src/ast/treedeallocator.h src/symboltable/typechecker.cpp src/symboltable/typechecker.h)
 
 add_executable(minijavac ${SOURCE_FILES})
 target_include_directories(minijavac PUBLIC {PROJECT_ROOT}/src)
 
+# gtest configuration
 set(GTEST_ROOT ${PROJECT_ROOT}/lib/gtest/googletest)
-include_directories(${GTEST_ROOT} ${GTEST_ROOT}/include)
 add_subdirectory(${GTEST_ROOT} gtest)
 target_link_libraries(minijavac gtest gtest_main)
+
 add_subdirectory(${PROJECT_ROOT}/test)

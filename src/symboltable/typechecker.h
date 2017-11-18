@@ -1,20 +1,14 @@
-#ifndef MINIJAVAC_TREESERIALIZER_H
-#define MINIJAVAC_TREESERIALIZER_H
+#ifndef MINIJAVAC_TYPECHECKER_H
+#define MINIJAVAC_TYPECHECKER_H
 
-#include <string>
-#include <array>
-#include <sstream>
-#include <queue>
+#include "table.h"
 
-#include "visitor.h"
-#include "grammardecl.h"
-
-class TreeSerializer final : public Visitor
+class TypeChecker final : public Visitor
 {
 public:
-    TreeSerializer();
+    TypeChecker() = default;
 
-    std::string ast_tree_to_dot(const Program* ast_root);
+    void perform_type_checking(const Table* symbol_table, const Program* ast_root);
 
     void visit(const Program*) override;
     void visit(const Symbol*) override;
@@ -56,55 +50,7 @@ public:
     void visit(const UnaryMinusExpression*) override;
 
 private:
-    enum SyntaxType
-    {
-        PROGRAM,
-        SYMBOL,
-        MAIN_CLASS,
-        CLASS_DECL_LIST,
-        CLASS_DECL,
-        VAR_DECL_LIST,
-        VAR_DECL,
-        METHOD_DECL_LIST,
-        METHOD_DECL,
-        ARGUMENT_LIST,
-        USER_DEFINED_TYPE,
-        PRIMITIVE_TYPE,
-        ARRAY_TYPE,
-        STATEMENT_LIST,
-        ASSIGN_SUBSCRIPT_STATEMENT,
-        PRINT_STATEMENT,
-        IF_STATEMENT,
-        WHILE_STATEMENT,
-        ASSIGN_STATEMENT,
-        SCOPED_STATEMENT,
-        EXPRESSION_LIST,
-        LENGTH_EXPRESSION,
-        ID_EXPRESSION,
-        THIS_EXPRESSION,
-        INT_EXPRESSION,
-        BOOL_EXPRESSION,
-        METHOD_CALL_EXPRESSION,
-        SUBSCRIPT_EXPRESSION,
-        PARENTHESIZED_EXPRESSION,
-        NEW_ARRAY_EXPRESSION,
-        NEW_OBJECT_EXPRESSION,
-        BINARY_EXPRESSION,
-        NEGATION_EXPRESSION,
-        UNARY_MINUS_EXPRESSION,
-
-        ENUM_SIZE_
-    };
-
-    static const std::size_t NUM_SYNTAX_TYPES = ENUM_SIZE_;
-
-    std::stringstream dot_stream_;
-    SyntaxType parent_;
-    std::array<std::size_t, NUM_SYNTAX_TYPES> syntax_counter_;
-    std::array<std::string, NUM_SYNTAX_TYPES> syntax_label_;
-
-    void add_edge_(SyntaxType from, SyntaxType to);
-    void add_vertex_(SyntaxType syntax_type);
+    const Table* symbol_table_;
 };
 
-#endif //MINIJAVAC_TREESERIALIZER_H
+#endif //MINIJAVAC_TYPECHECKER_H

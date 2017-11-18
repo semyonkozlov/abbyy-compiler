@@ -6,9 +6,12 @@
 #include "gtest/gtest.h"
 
 #include "../src/ast/parser.y.hpp"
+#include "../src/ast/treedeallocator.h"
+#include "../src/symboltable/table.h"
+#include "../src/symboltable/tableinitializer.h"
 
 extern yyFlexLexer scanner;
-extern Program* program;
+extern const Program* program;
 
 class SymbolTableTest : public ::testing::Test
 {
@@ -31,13 +34,14 @@ protected:
         scanner.switch_streams(&std::cin);
         test_input_.close();
 
-        // TODO!!! delete program ast tree
+        tree_deallocator_.deallocate_tree(program);
     }
 
     static constexpr const char* TEST_DATA_FILE_NAME_ = "../test/data/LinkedList.java";
 
     Table table_;
     TableInitializer initializer_;
+    TreeDeallocator tree_deallocator_;
 
     std::ifstream test_input_;
 };

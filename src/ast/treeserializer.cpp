@@ -40,12 +40,15 @@ TreeSerializer::TreeSerializer() : dot_stream_(), parent_(PROGRAM), syntax_count
     syntax_label_[UNARY_MINUS_EXPRESSION] = "UnaryMinusExpression";
 }
 
-std::string TreeSerializer::ast_tree_to_dot(const Program* program)
+std::string TreeSerializer::ast_tree_to_dot(const Program* ast_root)
 {
     dot_stream_.str({});
 
     dot_stream_ << "digraph ast {\n";
-    program->accept(this);
+
+    if (ast_root) {
+        ast_root->accept(this);
+    }
     dot_stream_ << "}";
     return dot_stream_.str();
 }

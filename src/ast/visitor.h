@@ -2,9 +2,11 @@
 #define MINIJAVAC_VISITOR_H
 
 #include "grammardecl.h"
+#include "parser.y.hpp"
 
-struct Visitor
+class Visitor
 {
+public:
     virtual ~Visitor() = default;
 
     virtual void visit(const Program*) = 0;
@@ -47,11 +49,20 @@ struct Visitor
     virtual void visit(const UnaryMinusExpression*) = 0;
 };
 
-struct Visitable
+using Location = YYLTYPE;
+
+class Visitable
 {
+public:
+    Visitable() : location_(yylloc)
+    { }
+
     virtual ~Visitable() = default;
 
     virtual void accept(Visitor* visitor) const = 0;
+
+/*protected:*/
+    Location location_;
 };
 
 #endif //MINIJAVAC_VISITOR_H

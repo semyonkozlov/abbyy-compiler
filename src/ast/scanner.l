@@ -1,6 +1,7 @@
 %{
 #include <iostream>
 
+#include "../symboltable/symbol.h"
 #include "parser.y.hpp"
 
 #define YY_USER_ACTION update_location();
