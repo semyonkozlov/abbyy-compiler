@@ -91,10 +91,12 @@ private:
         NEW_OBJECT_EXPRESSION,
         BINARY_EXPRESSION,
         NEGATION_EXPRESSION,
-        UNARY_MINUS_EXPRESSION
+        UNARY_MINUS_EXPRESSION,
+
+        ENUM_SIZE_
     };
 
-    static const std::size_t NUM_SYNTAX_TYPES = UNARY_MINUS_EXPRESSION + 1;
+    static const std::size_t NUM_SYNTAX_TYPES = ENUM_SIZE_;
 
     std::stringstream dot_stream_;
     SyntaxType parent_;

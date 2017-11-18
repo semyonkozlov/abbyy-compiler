@@ -11,10 +11,7 @@ int yylex(void)
     return scanner.yylex();
 }
 
-void yyerror(const char* str)
-{
-    std::cerr << str << std::endl;
-}
+void yyerror(const char* error_message);
 
 extern const class Program* program;
 %}
@@ -39,6 +36,8 @@ extern const class Program* program;
 }
 
 %error-verbose
+%verbose
+%locations
 
 %token                      T_AND       "&&"
 %token                      T_OR        "||"
@@ -109,7 +108,7 @@ MAIN_CLASS:
 
 CLASS_DECL_LIST: 
     CLASS_DECL '{' error '}' 
-    { std::cerr << "Error in class decl list rule." << std::endl; }
+    { yyerror("Empty class declaration."); }
     |
     CLASS_DECL CLASS_DECL_LIST
     { $$ = new ClassDeclList($1, $2); }
@@ -231,6 +230,9 @@ STATEMENT:
     /*|
     EXPRESSION ';'
     { $$ = nullptr; std::cerr << "Statement has no effect" << std::endl; }*/
+    |
+    error ';'
+    { yyerror("Empty statement."); }
     ;
 
 EXPRESSION_LIST:
@@ -313,5 +315,13 @@ EXPRESSION:
     |
     '(' EXPRESSION ')'
     { $$ = new ParenthesizedExpression($2); }
+    |
+    '(' error ')'
+    { yyerror("Empty expression in parenthesis."); }
     ;
 %%
+
+void yyerror(const char* error_message)
+{
+    std::fprintf(stderr, "%d:%d: %s\n", yylloc.first_line, yylloc.first_column, error_message);
+}

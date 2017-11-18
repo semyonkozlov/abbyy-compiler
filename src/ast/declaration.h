@@ -1,5 +1,5 @@
-#ifndef MINIJAVAC_IDDECLS_H
-#define MINIJAVAC_IDDECLS_H
+#ifndef MINIJAVAC_DECLARATION_H
+#define MINIJAVAC_DECLARATION_H
 
 #include "visitor.h"
 #include "grammardecl.h"
@@ -129,7 +129,10 @@ public:
 
 enum class AccessMod
 {
-    PUBLIC, PRIVATE
+    PUBLIC,
+    PRIVATE,
+
+    ENUM_SIZE_
 };
 
 class MethodDecl : public Visitable
@@ -174,4 +177,4 @@ public:
     const ArgumentList* other_args_;
 };
 
-#endif //MINIJAVAC_IDDECLS_H
+#endif //MINIJAVAC_DECLARATION_H

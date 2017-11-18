@@ -3,11 +3,33 @@
 
 #include "parser.y.hpp"
 
-int line_counter = 1;
-int char_counter = 1;
-void update_location();
+#define YY_USER_ACTION update_location();
+
+static int line_counter = 1;
+static int column_counter = 1;
+
+yyFlexLexer scanner;
+
+void update_location()
+{
+    yylloc.first_line = line_counter;
+    yylloc.first_column = column_counter;
+
+    for (int i = 0; i < scanner.YYLeng(); ++i) {
+        if (scanner.YYText()[i] == '\n') {
+            ++line_counter;
+            column_counter = 1;
+        } else {
+            ++column_counter;
+        }
+    }
+
+    yylloc.last_line = line_counter;
+    yylloc.last_column = column_counter;
+}
 %}
 
+%option yylineno
 %option noyywrap
 
 DIGIT                   [0-9]
@@ -17,60 +39,44 @@ INTLITERAL              [1-9]{DIGIT}*|0
 BOOLLITERAL             (false|true)
 
 %%
-"int"                   update_location(); return T_INTTYPE;
-"boolean"               update_location(); return T_BOOLTYPE;
-"String"                update_location(); return T_STRTYPE;
+"int"                   return T_INTTYPE;
+"boolean"               return T_BOOLTYPE;
+"String"                return T_STRTYPE;
 
-"new"                   update_location(); return T_NEW;
-"return"                update_location(); return T_RETURN;
+"new"                   return T_NEW;
+"return"                return T_RETURN;
 
-"System.out.println"    update_location(); return T_PRINT;
-"static void main"      update_location(); return T_ENTRY;
+"System.out.println"    return T_PRINT;
+"static void main"      return T_ENTRY;
 
-"public"                update_location(); return T_PUBLIC;
-"private"               update_location(); return T_PRIVATE;
-"while"                 update_location(); return T_WHILE;
-"if"                    update_location(); return T_IF;
-"else"                  update_location(); return T_ELSE;
-"class"                 update_location(); return T_CLASS;
-"this"                  update_location(); return T_THIS;
-"extends"               update_location(); return T_EXTENDS;
-"true"                  update_location(); return T_TRUE;
-"false"                 update_location(); return T_FALSE;
-"length"                update_location(); return T_LENGTH;
+"public"                return T_PUBLIC;
+"private"               return T_PRIVATE;
+"while"                 return T_WHILE;
+"if"                    return T_IF;
+"else"                  return T_ELSE;
+"class"                 return T_CLASS;
+"this"                  return T_THIS;
+"extends"               return T_EXTENDS;
+"true"                  return T_TRUE;
+"false"                 return T_FALSE;
+"length"                return T_LENGTH;
 
-"&&"                    update_location(); return T_AND;
-"||"                    update_location(); return T_OR;
+"&&"                    return T_AND;
+"||"                    return T_OR;
 
-{ID}                    { 
-                            update_location();
+{ID}                    {
                             yylval.symbol = Symbol::make_symbol(yytext);
                             return T_IDENTIFIER;
                         }   
                     
 {INTLITERAL}            {
-                            update_location();
                             yylval.symbol = Symbol::make_symbol(yytext);
                             return T_INTLITERAL;        
                         }
 
-"//".*$                 update_location();
-"/*".*"*/"              update_location();
+"//".*$
+"/*".*"*/"
 
-[[:space:]]+            update_location();
-.                       return yytext[0];
-%%
+[[:space:]]+
 
-yyFlexLexer scanner;
-
-void update_location()
-{
-    /*for (int i = 0; i < yyleng; ++i) {
-        if (yytext[i] == '\n') {
-            ++line_counter;
-            char_counter = 1;
-        } else {
-            ++char_counter;
-        }
-    }*/
-}
+.                       return yytext[0]; // TODO

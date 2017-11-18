@@ -16,6 +16,8 @@ protected:
     void SetUp() override
     {
         test_input_.open(TEST_DATA_FILE_NAME_);
+        ASSERT_TRUE(test_input_.is_open());
+
         scanner.switch_streams(&test_input_);
 
         yyparse();
@@ -29,7 +31,7 @@ protected:
         scanner.switch_streams(&std::cin);
         test_input_.close();
 
-        // TODO delete program ast tree
+        // TODO!!! delete program ast tree
     }
 
     static constexpr const char* TEST_DATA_FILE_NAME_ = "../test/data/LinkedList.java";
@@ -77,9 +79,9 @@ TEST_F(SymbolTableTest, correct_args_and_vars)
     auto init_new_args = init_new_method.get_args();
     EXPECT_EQ(init_new_args.size(), 3u);
 
-    auto v_next_var_id = Symbol::make_symbol("v_next");
-    ASSERT_TRUE(init_new_args.count(v_next_var_id));
-    EXPECT_EQ(init_new_args[v_next_var_id].get_type_id(), Symbol::make_symbol("List"));
+    auto v_elem_var_id = Symbol::make_symbol("v_elem");
+    ASSERT_TRUE(init_new_args.count(v_elem_var_id));
+    EXPECT_EQ(init_new_args[v_elem_var_id].get_type_id(), Symbol::make_symbol("Element"));
 
     auto search_method = list_methods[Symbol::make_symbol("Search")];
     auto search_locals = search_method.get_locals();

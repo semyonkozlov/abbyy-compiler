@@ -26,7 +26,16 @@ struct Expression : public Visitable
 
 enum class BinaryOperator 
 {
-    ADD, SUB, MUL, DIV, MOD, AND, OR, LESS
+    ADD,
+    SUB,
+    MUL,
+    DIV,
+    MOD,
+    AND,
+    OR,
+    LESS,
+
+    ENUM_SIZE_
 };
 
 class BinaryExpression : public Expression
