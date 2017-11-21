@@ -74,6 +74,7 @@ target_link_libraries(minijavac gtest gtest_main)
 enable_testing()
 
 # fmtlib configuration
-add_subdirectory(${PROJECT_ROOT}/lib/fmtlib)
+set(FMTLIB_ROOT ${PROJECT_ROOT}/lib/fmtlib)
+add_subdirectory(${FMTLIB_ROOT})
 target_link_libraries(minijavac fmt)
-target_include_directories(minijavac PUBLIC ${PROJECT_ROOT}/lib/fmtlib/)
+target_include_directories(minijavac PUBLIC ${FMTLIB_ROOT})

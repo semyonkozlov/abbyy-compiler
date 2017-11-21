@@ -61,7 +61,8 @@ public:
 
 private:
     std::string var_decl_to_string_(const Symbol* type_id, const Symbol* var_id) const;
-    std::string class_decl_to_string(const Symbol* class_id) const;
+    std::string class_decl_to_string_(const Symbol* class_id) const;
+    std::string method_decl_to_string_(const Symbol* return_type_id, const Symbol* method_id) const;
 
     Table* symbol_table_;
 

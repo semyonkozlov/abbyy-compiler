@@ -34,7 +34,7 @@ void TableInitializer::visit(const Program* program)
 void TableInitializer::visit(const MainClassDecl* main_class_decl)
 {
     if (symbol_table_->has_class(main_class_decl->class_id_)) {
-        ::register_error(ErrorType::REDEFINITION, class_decl_to_string(main_class_decl->class_id_),
+        ::register_error(ErrorType::REDEFINITION, class_decl_to_string_(main_class_decl->class_id_),
             main_class_decl->location_);
         return;
     }
@@ -138,6 +138,13 @@ void TableInitializer::visit(const MethodDeclList* method_decl_list)
 
 void TableInitializer::visit(const MethodDecl* method_decl)
 {
+    if (current_class_.has_method(method_decl->method_id_)) {
+        ::register_error(ErrorType::REDEFINITION,
+            method_decl_to_string_(method_decl->return_type_->type_id_, method_decl->method_id_),
+            method_decl->location_);
+        return;
+    }
+
     current_method_ = MethodInfo(method_decl->access_mod_, method_decl->return_type_->type_id_,
         method_decl->method_id_);
 
@@ -179,13 +186,19 @@ std::string TableInitializer::var_decl_to_string_(const Symbol* type_id, const S
 
         case Scope::METHOD:
         default:
-            return fmt::format(type_id->to_string(), "{} {}", var_id->to_string());
+            return fmt::format("{} {}", type_id->to_string(), var_id->to_string());
 
     }
 }
 
-std::string TableInitializer::class_decl_to_string(const Symbol* class_id) const
+std::string TableInitializer::class_decl_to_string_(const Symbol* class_id) const
 {
     return fmt::format("class {}", class_id->to_string());
+}
+
+std::string TableInitializer::method_decl_to_string_(const Symbol* return_type_id, const Symbol* method_id) const
+{
+    return fmt::format("{} {}.{}()", return_type_id->to_string(), current_class_.get_class_id()->to_string(),
+        method_id->to_string());
 }
 
