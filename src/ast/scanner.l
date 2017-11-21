@@ -1,7 +1,7 @@
 %{
 #include <iostream>
 
-#include "../symboltable/symbol.h"
+#include "symboltable/symbol.h"
 #include "parser.y.hpp"
 
 #define YY_USER_ACTION update_location();
@@ -30,6 +30,7 @@ void update_location()
 }
 %}
 
+%option c++
 %option yylineno
 %option noyywrap
 

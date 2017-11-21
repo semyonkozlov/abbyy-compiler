@@ -3,7 +3,7 @@
 
 #include "visitor.h"
 #include "grammardecl.h"
-#include "../symboltable/tableinitializer.h"
+#include "symboltable/tableinitializer.h"
 #include "treeserializer.h"
 
 class Type : public Visitable

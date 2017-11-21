@@ -1,4 +1,4 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #include "ast/parser.y.hpp"
 #include "ast/treedeallocator.h"

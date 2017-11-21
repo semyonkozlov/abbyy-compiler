@@ -322,5 +322,5 @@ EXPRESSION:
 
 void yyerror(const char* error_message)
 {
-    std::fprintf(stderr, "%d:%d: %s\n", yylloc.first_line, yylloc.first_column, error_message);
+    std::fprintf(stderr, "%d:%d: error: %s\n", yylloc.first_line, yylloc.first_column, error_message);
 }

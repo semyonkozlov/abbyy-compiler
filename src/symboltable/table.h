@@ -9,12 +9,15 @@ class Table
 public:
     Table();
 
-    void add_class_info(const ClassInfo& class_info);
+    void add_class(const ClassInfo& class_info);
+    bool has_class(const Symbol* class_id) const;
 
     const auto& get_classes() const noexcept
     {
         return classes_;
     }
+
+    const ClassInfo& get_class(const Symbol* class_id) const;
 
 private:
     std::map<const Symbol*, ClassInfo> classes_;

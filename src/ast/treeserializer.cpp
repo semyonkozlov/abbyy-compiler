@@ -49,6 +49,7 @@ std::string TreeSerializer::ast_tree_to_dot(const Program* ast_root)
     if (ast_root) {
         ast_root->accept(this);
     }
+
     dot_stream_ << "}";
     return dot_stream_.str();
 }

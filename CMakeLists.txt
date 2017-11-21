@@ -5,7 +5,7 @@ project("minijavac" CXX C)
 set(PROJECT_ROOT ${CMAKE_SOURCE_DIR})
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
@@ -50,18 +50,30 @@ set(SOURCE_FILES
         src/symboltable/variableinfo.h
         src/symboltable/tableinitializer.cpp
         src/symboltable/tableinitializer.h
-        src/utils/compilationerror.cpp
-        src/utils/compilationerror.h
         test/symboltable_test.cpp
         src/ast/treedeallocator.cpp
-        src/ast/treedeallocator.h src/symboltable/typechecker.cpp src/symboltable/typechecker.h)
+        src/ast/treedeallocator.h
+        src/symboltable/typechecker.cpp
+        src/symboltable/typechecker.h
+        src/utils/utils.h
+        src/utils/utils.cpp)
 
 add_executable(minijavac ${SOURCE_FILES})
-target_include_directories(minijavac PUBLIC {PROJECT_ROOT}/src)
+
+target_include_directories(minijavac PUBLIC
+        ${PROJECT_ROOT}/src
+        ${PROJECT_ROOT}/src/ast
+        ${PROJECT_ROOT}/src/symboltable
+        ${PROJECT_ROOT}/src/utils)
 
 # gtest configuration
 set(GTEST_ROOT ${PROJECT_ROOT}/lib/gtest/googletest)
-add_subdirectory(${GTEST_ROOT} gtest)
+add_subdirectory(${GTEST_ROOT})
 target_link_libraries(minijavac gtest gtest_main)
 
-add_subdirectory(${PROJECT_ROOT}/test)
+enable_testing()
+
+# fmtlib configuration
+add_subdirectory(${PROJECT_ROOT}/lib/fmtlib)
+target_link_libraries(minijavac fmt)
+target_include_directories(minijavac PUBLIC ${PROJECT_ROOT}/lib/fmtlib/)

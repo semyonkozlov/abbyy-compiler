@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <memory>
 
-#include "../ast/visitor.h"
+#include "ast/visitor.h"
 
 class Symbol : public Visitable
 {
@@ -15,7 +15,7 @@ public:
 
     static const Symbol* make_symbol(const std::string& str);
 
-    const std::string& to_string() const
+    const std::string& to_string() const noexcept 
     {
         return str_;
     }

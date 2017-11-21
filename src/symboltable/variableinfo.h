@@ -7,7 +7,7 @@ class VariableInfo
 {
 public:
     VariableInfo();
-    VariableInfo(const Symbol* type_id, const Symbol* var_id_);
+    VariableInfo(const Symbol* type_id, const Symbol* var_id);
 
     const Symbol* get_var_id() const noexcept
     {

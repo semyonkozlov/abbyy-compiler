@@ -5,7 +5,7 @@
 
 #include "symbol.h"
 #include "variableinfo.h"
-#include "../ast/declaration.h"
+#include "ast/declaration.h"
 
 class MethodInfo
 {
@@ -38,8 +38,14 @@ public:
         return locals_;
     }
 
-    void add_local_var_info(const VariableInfo& variable_info);
-    void add_arg_info(const VariableInfo& variable_info);
+
+    void add_arg(const VariableInfo& variable_info);
+    void add_local_var(const VariableInfo& variable_info);
+
+    bool has_arg(const Symbol* var_id) const;
+    bool has_local_var(const Symbol* var_id) const;
+
+    const VariableInfo& get_variable(const Symbol* var_id) const;
 
 private:
     std::map<const Symbol*, VariableInfo> args_;

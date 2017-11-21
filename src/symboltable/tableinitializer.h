@@ -1,7 +1,7 @@
 #ifndef MINIJAVAC_TABLEINITIALIZER_H
 #define MINIJAVAC_TABLEINITIALIZER_H
 
-#include "../ast/visitor.h"
+#include "ast/visitor.h"
 #include "table.h"
 
 enum class Scope
@@ -9,7 +9,6 @@ enum class Scope
     GLOBAL,
     CLASS,
     METHOD,
-    LOCAL, // TODO
 
     ENUM_SIZE_
 };
@@ -19,7 +18,7 @@ class TableInitializer final : public Visitor
 public:
     TableInitializer();
 
-    bool init_symbol_table(Table* symbol_table, const Program* ast_root);
+    void init_symbol_table(Table* symbol_table, const Program* ast_root);
 
     void visit(const Program*) override;
     void visit(const Symbol*) override { }
@@ -61,10 +60,13 @@ public:
     void visit(const UnaryMinusExpression*) override { }
 
 private:
+    std::string var_decl_to_string_(const Symbol* type_id, const Symbol* var_id) const;
+    std::string class_decl_to_string(const Symbol* class_id) const;
+
     Table* symbol_table_;
 
-    ClassInfo current_class_info_;
-    MethodInfo current_method_info_;
+    ClassInfo current_class_;
+    MethodInfo current_method_;
     Scope current_scope_;
 };
 

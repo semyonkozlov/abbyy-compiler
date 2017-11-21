@@ -15,6 +15,11 @@ public:
         return class_id_;
     }
 
+    const Symbol* get_base_class_id() const noexcept
+    {
+        return base_class_id_;
+    }
+
     const auto& get_fields() const noexcept
     {
         return fields_;
@@ -25,8 +30,13 @@ public:
         return methods_;
     }
 
-    void add_method_info(const MethodInfo& method_info); // TODO throw error if double decl
-    void add_field_info(const VariableInfo& variable_info);
+    void add_method(const MethodInfo& method_info); // TODO throw error if double decl
+    void add_field(const VariableInfo& variable_info);
+
+    bool has_method(const Symbol* method_id) const;
+    bool has_field(const Symbol* var_id) const;
+
+    const VariableInfo& get_field(const Symbol* var_id) const;
 
 private:
     std::map<const Symbol*, VariableInfo> fields_;

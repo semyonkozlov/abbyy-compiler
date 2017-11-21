@@ -2,7 +2,7 @@
 #define MINIJAVAC_VISITOR_H
 
 #include "grammardecl.h"
-#include "parser.y.hpp"
+#include "utils/utils.h"
 
 class Visitor
 {
@@ -48,8 +48,6 @@ public:
     virtual void visit(const NegationExpression*) = 0;
     virtual void visit(const UnaryMinusExpression*) = 0;
 };
-
-using Location = YYLTYPE;
 
 class Visitable
 {

@@ -2,13 +2,12 @@
 #include <unordered_set>
 
 #include <FlexLexer.h>
+#include <gtest/gtest.h>
 
-#include "gtest/gtest.h"
-
-#include "../src/ast/parser.y.hpp"
-#include "../src/ast/treedeallocator.h"
-#include "../src/symboltable/table.h"
-#include "../src/symboltable/tableinitializer.h"
+#include "ast/parser.y.hpp"
+#include "ast/treedeallocator.h"
+#include "symboltable/table.h"
+#include "symboltable/tableinitializer.h"
 
 extern yyFlexLexer scanner;
 extern const Program* program;
@@ -25,8 +24,7 @@ protected:
 
         yyparse();
 
-        bool is_ok = initializer_.init_symbol_table(&table_, program);
-        ASSERT_TRUE(is_ok);
+        initializer_.init_symbol_table(&table_, program);
     }
 
     void TearDown() override
@@ -35,6 +33,8 @@ protected:
         test_input_.close();
 
         tree_deallocator_.deallocate_tree(program);
+
+        ::compilation_errors.clear();
     }
 
     static constexpr const char* TEST_DATA_FILE_NAME_ = "../test/data/LinkedList.java";
@@ -46,22 +46,27 @@ protected:
     std::ifstream test_input_;
 };
 
-TEST_F(SymbolTableTest, correct_classes)
+TEST_F(SymbolTableTest, correct_table)
 {
     auto classes = table_.get_classes();
     EXPECT_EQ(classes.size(), 4u);
 
     std::unordered_set<std::string> class_names;
 
-    for (const auto& [symbol, _] : classes) {
+    /*for (const auto& [symbol, _] : classes) {
         class_names.insert(symbol->to_string());
+    }*/
+    for (auto&& pair : classes) {
+        class_names.insert(pair.first->to_string());
     }
 
     std::unordered_set<std::string> expected_class_names{"LinkedList", "Element", "List", "LL"};
     EXPECT_EQ(class_names, expected_class_names);
+
+    EXPECT_TRUE(::compilation_errors.empty());
 }
 
-TEST_F(SymbolTableTest, correct_methods)
+TEST_F(SymbolTableTest, correct_class)
 {
     auto classes = table_.get_classes();
     auto element_class = classes[Symbol::make_symbol("Element")];
@@ -71,9 +76,11 @@ TEST_F(SymbolTableTest, correct_methods)
 
     EXPECT_EQ(element_class.get_methods().size(), 6u);
     EXPECT_TRUE(element_class.get_methods().count(Symbol::make_symbol("Compare")));
+
+    EXPECT_TRUE(::compilation_errors.empty());
 }
 
-TEST_F(SymbolTableTest, correct_args_and_vars)
+TEST_F(SymbolTableTest, correct_methods)
 {
     auto classes = table_.get_classes();
     auto list_class = classes[Symbol::make_symbol("List")];
@@ -97,4 +104,6 @@ TEST_F(SymbolTableTest, correct_args_and_vars)
 
     EXPECT_EQ(search_method.get_return_type_id(), Symbol::make_symbol("int"));
     EXPECT_EQ(search_method.get_access_mod(), AccessMod::PUBLIC);
+
+    EXPECT_TRUE(::compilation_errors.empty());
 }
