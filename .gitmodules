@@ -3,5 +3,5 @@
     url = git@github.com:google/googletest.git
 
 [submodule "lib/fmtlib"]
-	path = lib/fmtlib
-	url = git@github.com:fmtlib/fmt.git
+    path = lib/fmtlib
+    url = git@github.com:fmtlib/fmt.git

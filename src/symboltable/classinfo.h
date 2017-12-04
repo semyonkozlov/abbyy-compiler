@@ -30,7 +30,7 @@ public:
         return methods_;
     }
 
-    void add_method(const MethodInfo& method_info); // TODO throw error if double decl
+    void add_method(const MethodInfo& method_info);
     void add_field(const VariableInfo& variable_info);
 
     bool has_method(const Symbol* method_id) const;

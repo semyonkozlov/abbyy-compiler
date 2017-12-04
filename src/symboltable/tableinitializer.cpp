@@ -99,7 +99,7 @@ void TableInitializer::visit(const VarDecl* var_decl)
 
     switch (current_scope_) {
         case Scope::CLASS:
-            if (current_class_.has_field(var_decl->var_id_)) { // TODO conflicting declaration
+            if (current_class_.has_field(var_decl->var_id_)) { // TODO add conflicting declaration error
                 ::register_error(ErrorType::REDECLARATION,
                     var_decl_to_string_(var_decl->type_->type_id_, var_decl->var_id_),
                     var_decl->location_);
@@ -138,6 +138,7 @@ void TableInitializer::visit(const MethodDeclList* method_decl_list)
 
 void TableInitializer::visit(const MethodDecl* method_decl)
 {
+    // TODO check if method can be overloaded
     if (current_class_.has_method(method_decl->method_id_)) {
         ::register_error(ErrorType::REDEFINITION,
             method_decl_to_string_(method_decl->return_type_->type_id_, method_decl->method_id_),
@@ -159,7 +160,6 @@ void TableInitializer::visit(const MethodDecl* method_decl)
 
     current_class_.add_method(current_method_);
 }
-
 
 void TableInitializer::visit(const ArgumentList* arg_list)
 {

@@ -81,4 +81,4 @@ BOOLLITERAL             (false|true)
 
 [[:space:]]+
 
-.                       return yytext[0]; // TODO
+.                       return yytext[0]; // TODO replace with punctuation regexp

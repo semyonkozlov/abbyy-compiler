@@ -4,7 +4,9 @@ std::unordered_map<std::string, const Symbol*> Symbol::intern_map_{};
 
 const Symbol* Symbol::make_symbol(const std::string& str)
 {
-    if (auto intern = intern_map_.find(str); intern != std::end(intern_map_)) {
+    auto intern = intern_map_.find(str);
+
+    if (intern != std::end(intern_map_)) {
         return intern->second;
     }
 

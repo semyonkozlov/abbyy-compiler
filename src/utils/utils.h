@@ -22,8 +22,8 @@ enum class ErrorType
 class CompilationError
 {
 public:
-    explicit CompilationError(ErrorType error_type,
-        std::string additional_description = {}, Location error_location = {});
+    explicit CompilationError(ErrorType error_type, std::string additional_description = {}, 
+        Location error_location = {});
 
     std::string to_string() const;
 
@@ -38,7 +38,3 @@ void register_error(ErrorType error_type, std::string additional_description = {
 extern std::vector<CompilationError> compilation_errors;
 
 #endif //MINIJAVAC_UTILS_H
-
-
-
-

@@ -32,7 +32,7 @@ std::string CompilationError::to_string() const
 
 void register_error(ErrorType error_type, std::string additional_description, Location error_location)
 {
-    ::compilation_errors.emplace_back(error_type, additional_description, error_location);
+    ::compilation_errors.emplace_back(error_type, std::move(additional_description), error_location);
 }
 
 std::vector<CompilationError> compilation_errors;
